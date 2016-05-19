@@ -33,8 +33,8 @@ class AliasManager(object):
 
     def populate_aliases(self):
         with open(self.path, 'r') as f:
-            self.aliases = [
-                {'name': name, 'ip': ip} for name, ip in line.split('=')
+            self.aliases = [[
+                {'name': name, 'ip': ip} for name, ip in line.split('=')]
                 for line in f.read().split('\n') if line != '']
 
 
