@@ -14,7 +14,7 @@ class Sync(object):
     def on_get(self, req, resp):
         resp.data = self.manager.get_aliases()
         resp.content_type = 'application/json'
-        reps.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
     def on_post(self, req, resp):
         resp.status = self.manager.post_alias(req.data)
