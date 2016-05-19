@@ -46,11 +46,18 @@ class AliasManager(object):
     def post_alias(self, data):
         try:
             data = json.loads(data)
-            self.aliases.append({'name': data['name'], 'ip': data['ip']})
+            if isinstance(data, list):
+                for d in data:
+                    self._post_alias(d)
+            else:
+                self._post_alias(data)
             self._write_file()
             return falcon.HTTP_200
         except:
             return falcon.HTTP_400
+
+    def _post_alias(self, data):
+        self.aliases.append({'name': data['name'], 'ip': data['ip']})
 
     def remove_alias(self, data):
         try:
