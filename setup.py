@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 os.chdir(os.path.abspath(os.path.dirname(__file__)))
 
 setup(
-    name='myapp',
+    name='alias',
     version='0.0.1',
     description='Alias Sync API',
     long_description='{0}'.format(open('README.rst').read()),
