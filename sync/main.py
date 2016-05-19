@@ -9,6 +9,6 @@ def handle_404(req, resp):
         code=falcon.HTTP_404)
 
 app = falcon.API()
-app.add_route(Sync.route, sync())
+app.add_route(Sync.route, Sync())
 
 app.add_sink(handle_404, '')
