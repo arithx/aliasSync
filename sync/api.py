@@ -17,7 +17,10 @@ class Sync(object):
         resp.status = falcon.HTTP_200
 
     def on_post(self, req, resp):
-        resp.status = self.manager.post_alias(req.data)
+        resp.status = self.manager.post_alias(req.stream.read())
+
+    def on_delete(self, req, resp):
+        resp.status = self.manager.remove_alias(req.stream.read())
 
 
 class AliasManager(object):
@@ -37,7 +40,6 @@ class AliasManager(object):
                 {'name': name, 'ip': ip} for name, ip in line.split('=')]
                 for line in f.read().split('\n') if line != '']
 
-
     def get_aliases(self):
         return json.dumps(self.aliases)
 
@@ -45,6 +47,16 @@ class AliasManager(object):
         try:
             data = json.loads(data)
             self.aliases.append({'name': data['name'], 'ip': data['ip']})
+            self._write_file()
+            return falcon.HTTP_200
+        except:
+            return falcon.HTTP_400
+
+    def remove_alias(self, data):
+        try:
+            data = json.loads(data)
+            self.aliases = [alias for alias in self.aliases
+                            if alias['name'] != data['name']]
             self._write_file()
             return falcon.HTTP_200
         except:
